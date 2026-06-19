@@ -73,6 +73,35 @@ def test_contar_aprovados_em_lista_vazia():
 # Requisito 2 — situacao_final(total_aulas) -> str
 # Escreva os testes ANTES de implementar o método
 
+def test_situacao_final_reprova_por_falta_acima_de_vinte_e_cinco_por_cento():
+    aluno = Aluno(nome="Helena", notas=[9, 9, 8, 8], faltas=30)
+
+    assert aluno.situacao_final(total_aulas=100) == "Reprovado por falta"
+
+
+def test_situacao_final_aprova_com_poucas_faltas_e_media_alta():
+    aluno = Aluno(nome="Igor", notas=[7, 8, 7, 8], faltas=10)
+
+    assert aluno.situacao_final(total_aulas=100) == "Aprovado"
+
+
+def test_situacao_final_reprova_por_nota_com_poucas_faltas_e_media_baixa():
+    aluno = Aluno(nome="Julia", notas=[4, 5, 4, 5], faltas=10)
+
+    assert aluno.situacao_final(total_aulas=100) == "Reprovado por nota"
+
+
+def test_situacao_final_com_exatos_vinte_e_cinco_por_cento_verifica_a_media():
+    aluno = Aluno(nome="Lucas", notas=[6, 6, 6, 6], faltas=25)
+
+    assert aluno.situacao_final(total_aulas=100) == "Aprovado"
+
+
+def test_situacao_final_reprova_por_falta_pouco_acima_de_vinte_e_cinco_por_cento():
+    aluno = Aluno(nome="Marina", notas=[9, 9, 9, 9], faltas=26)
+
+    assert aluno.situacao_final(total_aulas=100) == "Reprovado por falta"
+
 
 # Requisito 3 — enviar_boletim(email_service)
 # Use MagicMock para simular o serviço de e-mail
