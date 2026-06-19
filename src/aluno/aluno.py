@@ -1,4 +1,9 @@
+MEDIA_MINIMA_APROVACAO = 6.0
+LIMITE_PERCENTUAL_FALTAS = 0.25
 SITUACAO_APROVADO = "Aprovado"
+SITUACAO_REPROVADO = "Reprovado"
+SITUACAO_REPROVADO_POR_FALTA = "Reprovado por falta"
+SITUACAO_REPROVADO_POR_NOTA = "Reprovado por nota"
 
 
 class Aluno:
@@ -11,9 +16,9 @@ class Aluno:
         return sum(self.notas) / len(self.notas)
 
     def situacao(self) -> str:
-        if self.calcular_media() >= 6.0:
+        if self.calcular_media() >= MEDIA_MINIMA_APROVACAO:
             return SITUACAO_APROVADO
-        return "Reprovado"
+        return SITUACAO_REPROVADO
 
     def maior_nota(self) -> float:
         return max(self.notas)
@@ -25,11 +30,13 @@ class Aluno:
         return round(self.calcular_media())
 
     def situacao_final(self, total_aulas: int) -> str:
-        if self.faltas / total_aulas > 0.25:
-            return "Reprovado por falta"
-        if self.calcular_media() >= 6.0:
+        percentual_faltas = self.faltas / total_aulas
+
+        if percentual_faltas > LIMITE_PERCENTUAL_FALTAS:
+            return SITUACAO_REPROVADO_POR_FALTA
+        if self.situacao() == SITUACAO_APROVADO:
             return SITUACAO_APROVADO
-        return "Reprovado por nota"
+        return SITUACAO_REPROVADO_POR_NOTA
 
 
 def contar_aprovados(lista_de_alunos: list[Aluno]) -> int:
