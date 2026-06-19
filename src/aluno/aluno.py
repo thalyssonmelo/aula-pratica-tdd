@@ -1,3 +1,6 @@
+SITUACAO_APROVADO = "Aprovado"
+
+
 class Aluno:
     def __init__(self, nome: str, notas: list, faltas: int = 0):
         self.nome = nome
@@ -9,7 +12,7 @@ class Aluno:
 
     def situacao(self) -> str:
         if self.calcular_media() >= 6.0:
-            return "Aprovado"
+            return SITUACAO_APROVADO
         return "Reprovado"
 
     def maior_nota(self) -> float:
@@ -22,5 +25,8 @@ class Aluno:
         return round(self.calcular_media())
 
 
-def contar_aprovados(lista_de_alunos: list) -> int:
-    return sum(aluno.situacao() == "Aprovado" for aluno in lista_de_alunos)
+def contar_aprovados(lista_de_alunos: list[Aluno]) -> int:
+    return sum(
+        aluno.situacao() == SITUACAO_APROVADO
+        for aluno in lista_de_alunos
+    )
