@@ -1,4 +1,5 @@
 from aluno.aluno import Aluno
+from aluno import aluno as aluno_module
 
 
 # =============================================================
@@ -36,6 +37,37 @@ def test_calcular_media_arredondada_arredonda_para_o_inteiro_mais_proximo():
 
 # Requisito 1 — contar_aprovados(lista_de_alunos) -> int
 # Escreva os testes ANTES de implementar a função
+
+def test_contar_aprovados_quando_todos_estao_aprovados():
+    alunos = [
+        Aluno(nome="Ana", notas=[8, 7, 9, 8]),
+        Aluno(nome="Bruno", notas=[6, 6, 7, 7]),
+    ]
+
+    assert aluno_module.contar_aprovados(alunos) == 2
+
+
+def test_contar_aprovados_quando_todos_estao_reprovados():
+    alunos = [
+        Aluno(nome="Carla", notas=[4, 5, 3, 4]),
+        Aluno(nome="Diego", notas=[5, 5, 5, 5]),
+    ]
+
+    assert aluno_module.contar_aprovados(alunos) == 0
+
+
+def test_contar_aprovados_em_lista_mista():
+    alunos = [
+        Aluno(nome="Elisa", notas=[7, 8, 7, 8]),
+        Aluno(nome="Felipe", notas=[4, 5, 4, 5]),
+        Aluno(nome="Gabriela", notas=[6, 6, 6, 6]),
+    ]
+
+    assert aluno_module.contar_aprovados(alunos) == 2
+
+
+def test_contar_aprovados_em_lista_vazia():
+    assert aluno_module.contar_aprovados([]) == 0
 
 
 # Requisito 2 — situacao_final(total_aulas) -> str
