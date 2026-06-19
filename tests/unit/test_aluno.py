@@ -1,3 +1,5 @@
+from unittest.mock import MagicMock
+
 from aluno.aluno import Aluno
 from aluno import aluno as aluno_module
 
@@ -106,3 +108,23 @@ def test_situacao_final_reprova_por_falta_pouco_acima_de_vinte_e_cinco_por_cento
 # Requisito 3 — enviar_boletim(email_service)
 # Use MagicMock para simular o serviço de e-mail
 # Escreva os testes ANTES de implementar o método
+
+def test_enviar_boletim_de_aluno_reprovado_aciona_servico_de_email():
+    aluno = Aluno(nome="Nicolas", notas=[4, 5, 4, 5])
+    email_service = MagicMock()
+
+    aluno.enviar_boletim(email_service)
+
+    email_service.enviar.assert_called_once_with(
+        aluno.nome,
+        aluno.calcular_media(),
+    )
+
+
+def test_enviar_boletim_de_aluno_aprovado_nao_aciona_servico_de_email():
+    aluno = Aluno(nome="Olivia", notas=[7, 8, 7, 8])
+    email_service = MagicMock()
+
+    aluno.enviar_boletim(email_service)
+
+    email_service.enviar.assert_not_called()
