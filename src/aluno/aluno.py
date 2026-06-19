@@ -15,8 +15,11 @@ class Aluno:
     def calcular_media(self) -> float:
         return sum(self.notas) / len(self.notas)
 
+    def esta_aprovado(self) -> bool:
+        return self.calcular_media() >= MEDIA_MINIMA_APROVACAO
+
     def situacao(self) -> str:
-        if self.calcular_media() >= MEDIA_MINIMA_APROVACAO:
+        if self.esta_aprovado():
             return SITUACAO_APROVADO
         return SITUACAO_REPROVADO
 
@@ -34,17 +37,16 @@ class Aluno:
 
         if percentual_faltas > LIMITE_PERCENTUAL_FALTAS:
             return SITUACAO_REPROVADO_POR_FALTA
-        if self.situacao() == SITUACAO_APROVADO:
+        if self.esta_aprovado():
             return SITUACAO_APROVADO
         return SITUACAO_REPROVADO_POR_NOTA
 
     def enviar_boletim(self, email_service) -> None:
-        if self.situacao() == SITUACAO_REPROVADO:
-            email_service.enviar(self.nome, self.calcular_media())
+        if self.esta_aprovado():
+            return
+
+        email_service.enviar(self.nome, self.calcular_media())
 
 
 def contar_aprovados(lista_de_alunos: list[Aluno]) -> int:
-    return sum(
-        aluno.situacao() == SITUACAO_APROVADO
-        for aluno in lista_de_alunos
-    )
+    return sum(aluno.esta_aprovado() for aluno in lista_de_alunos)
